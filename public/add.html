@@ -1,0 +1,62 @@
+<!-- public/add.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Curiosidade</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Curiosidade</h1>
+        <textarea id="curiosityText" rows="4" placeholder="Escreva uma curiosidade..."></textarea>
+        <br>
+        <button onclick="addCuriosity()">Adicionar</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function addCuriosity() {
+            const curiosityText = document.getElementById('curiosityText').value;
+
+            fetch('/curiosities/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: curiosityText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.message || 'Erro ao adicionar curiosidade';
+                document.getElementById('curiosityText').value = ''; // Limpa o campo
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Erro ao adicionar curiosidade';
+            });
+        }
+    </script>
+</body>
+</html>

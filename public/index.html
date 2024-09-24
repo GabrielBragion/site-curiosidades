@@ -1,0 +1,52 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curiosidade Aleatória</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        #curiosity {
+            font-size: 1.5em;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Curiosidade Aleatória</h1>
+        <button onclick="getRandomCuriosity()">Mostrar Curiosidade</button>
+        <div id="curiosity"></div>
+    </div>
+
+    <script>
+        function getRandomCuriosity() {
+            fetch('/curiosities/random')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('curiosity').innerText = data ? data.text : 'Nenhuma curiosidade disponível';
+                })
+                .catch(error => {
+                    document.getElementById('curiosity').innerText = 'Erro ao buscar curiosidade';
+                });
+        }
+    </script>
+</body>
+</html>

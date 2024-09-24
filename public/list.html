@@ -1,0 +1,57 @@
+<!-- public/list.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Curiosidades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Curiosidades</h1>
+        <ul id="curiositiesList"></ul>
+    </div>
+
+    <script>
+        function loadCuriosities() {
+            fetch('/curiosities/all')
+                .then(response => response.json())
+                .then(data => {
+                    const list = document.getElementById('curiositiesList');
+                    list.innerHTML = ''; // Limpa a lista
+                    data.forEach(curiosity => {
+                        const li = document.createElement('li');
+                        li.textContent = curiosity.text;
+                        list.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('curiositiesList').innerHTML = 'Erro ao carregar curiosidades';
+                });
+        }
+
+        // Carregar as curiosidades ao carregar a página
+        window.onload = loadCuriosities;
+    </script>
+</body>
+</html>
